@@ -103,7 +103,7 @@ public class Game
         int xLineCount=0, oLineCount=0;
         int xColumnCount=0, oColumnCount=0;
         int leftDiagonalXCount = 0, leftDiagonalOCount = 0;
-        int rightDiagonalXCount = 0, rightDigonalOCount = 0;
+        int rightDiagonalXCount = 0, rightDiagonalOCount = 0;
         
         for (int i = 0; i < 3; i++)
         {
@@ -128,10 +128,19 @@ public class Game
             if (_ticTacToe[m, m] == "X") leftDiagonalXCount++;
             else if(_ticTacToe[m, m] == "O") leftDiagonalOCount++;
         }
+
+        int rightDiagonalColumnsCounter = 2;
+        for (int n = 0; n < 3; n++)
+        {
+            if (_ticTacToe[n, rightDiagonalColumnsCounter] == "X") rightDiagonalXCount++;
+            else if (_ticTacToe[n, rightDiagonalColumnsCounter] == "O") rightDiagonalOCount++;
+            rightDiagonalColumnsCounter--;
+        }
         if (xLineCount == 3 || oLineCount == 3) _gameOver = true;
         if (xColumnCount == 3 || oColumnCount == 3) _gameOver = true;
         if (leftDiagonalXCount == 3 || leftDiagonalOCount == 3) _gameOver = true;
-        
+        if (rightDiagonalXCount == 3 || rightDiagonalOCount == 3) _gameOver = true;
+
         /*
             [0,0][0,1][0,2],
             [1,0][1,1][1,2],
