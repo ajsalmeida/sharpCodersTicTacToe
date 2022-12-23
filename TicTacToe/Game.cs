@@ -119,8 +119,8 @@ public class Game
                 else if (_ticTacToe[i, j] == "O") oCount++;
             }
 
-            if (xCount == 3) WriteHistory(_player1);
-            else if (oCount == 3) WriteHistory(_player2);
+            if (xCount == 3) WriteHistory(_player1, _player2);
+            else if (oCount == 3) WriteHistory(_player2, _player1);
             xCount = 0;
             oCount = 0;
         }
@@ -137,8 +137,8 @@ public class Game
                 if(_ticTacToe[l,k] == "X") xCount++;
                 else if(_ticTacToe[l,k] == "O") oCount++;
             }
-            if (xCount == 3) WriteHistory(_player1);
-            else if (oCount == 3) WriteHistory(_player2);
+            if (xCount == 3) WriteHistory(_player1, _player2);
+            else if (oCount == 3) WriteHistory(_player2, _player1);
             xCount = 0;
             oCount = 0;
         }
@@ -154,8 +154,8 @@ public class Game
             if (_ticTacToe[m, m] == "X") xCount++;
             else if(_ticTacToe[m, m] == "O") oCount++;
         }
-        if (xCount == 3) WriteHistory(_player1);
-        else if (oCount == 3) WriteHistory(_player2);
+        if (xCount == 3) WriteHistory(_player1, _player2);
+        else if (oCount == 3) WriteHistory(_player2, _player1);
         
     }
 
@@ -171,15 +171,21 @@ public class Game
             else if (_ticTacToe[n, rightDiagonalColumnsCounter] == "O") oCount++;
             rightDiagonalColumnsCounter--;
         }
-        if (xCount == 3) WriteHistory(_player1);
-        else if (oCount == 3) WriteHistory(_player2);
+        if (xCount == 3) WriteHistory(_player1, _player2);
+        else if (oCount == 3) WriteHistory(_player2, _player1);
     }
 
 
-    private void WriteHistory(string winner)
+    private void WriteHistory(string winner, string looser)
     {
-        //Database database = new();
         Console.WriteLine($"{winner} ganhou!");
+        System.Threading.Thread.Sleep(5000);
+        
+        Database database = new();
+        database.UpdateScore(winner, looser);
+        database.UpdateHistory(winner,looser);
+        System.Threading.Thread.Sleep(5000);
+        
         Reset();
         _gameOver = true;
         

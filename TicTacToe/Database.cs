@@ -29,10 +29,11 @@ namespace TicTacToe
             cmd.CommandText = "DROP TABLE IF EXISTS gamehistory";
             cmd.ExecuteNonQuery();
 
-            cmd.CommandText = @"CREATE TABLE users(id INTEGER PRIMARY KEY,name TEXT,highestScore INT)";
+            cmd.CommandText = @"CREATE TABLE users(id INTEGER PRIMARY KEY,name TEXT,score INT)";
             cmd.ExecuteNonQuery();
             cmd.CommandText = @"CREATE TABLE gamestory(id INTEGER PRIMARY KEY,player1 TEXT,player2 TEXT,scorePlayer1 INT, scorePlayer2 INT)";
             cmd.ExecuteNonQuery();
+
         }
         
         public void CreateUser(string username)
@@ -41,7 +42,7 @@ namespace TicTacToe
             {
                 Console.WriteLine("Criando usuario..."+username);
                 using var cmd = new SQLiteCommand(_connection);
-                cmd.CommandText = $"INSERT INTO users (name,highestscore) VALUES ({username},{0})";
+                cmd.CommandText = $"INSERT INTO users (name,score) VALUES ({username},{0})";
                 cmd.ExecuteNonQuery();
             }
             catch (Exception e)
@@ -67,19 +68,34 @@ namespace TicTacToe
             return false;
         }
 
-        public void UpdateScore()
-        {
-
+        public void UpdateScore(string winner, string looser)
+        { try
+            {
+                
+                using var cmd = new SQLiteCommand(_connection);
+                Console.WriteLine($"Atualizando pontuação... de {winner} + 1000 pontos e {looser} - 1000 pontos");
+                cmd.CommandText = $"UPDATE users SET (score) = score+1000 WHERE name = {winner}";
+                Console.WriteLine($"{cmd.CommandText}");
+                cmd.ExecuteNonQuery();
+                cmd.CommandText = $"UPDATE users SET (score) = score-1000 WHERE name = {looser}";
+                Console.WriteLine($"{cmd.CommandText}");
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
 
-        public void UpdateHistory()
+        public void UpdateHistory(string winner, string looser)
         {
             
         }
 
         public void PrintScore()
         {
-            string statement = $"SELECT 5 FROM gamestory";
+            string statement = $"SELECT 5 FROM users ORDER BY ASC";
             using var cmd = new SQLiteCommand(statement, _connection);
             SQLiteDataReader reader = cmd.ExecuteReader();
             Console.WriteLine(reader);
