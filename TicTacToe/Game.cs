@@ -12,10 +12,10 @@ public class Game
     
     public Game()
     {
-        Fill();
+        Reset();
     }
 
-    private void Fill()
+    private void Reset()
     {
         for (int i = 0; i < 3; i++)
         {
@@ -71,6 +71,7 @@ public class Game
             _ticTacToe[linePlayer1 - 1, columnPlayer1 - 1] = "X";
             UpdateGameProgress();
         }
+        Console.Clear();
         PrintGame(_player1,_player2);
 
     }
@@ -88,64 +89,99 @@ public class Game
             UpdateGameProgress();
             
         }
-        PrintGame(_player1,_player2);
+        Console.Clear();
+        PrintGame(_player1, _player2);
     }
 
     private void UpdateGameProgress()
     {
         _numberOfChoices++;
-        if (_numberOfChoices == 10) _gameOver = true;
-        if(_numberOfChoices >= 5) VerifyGameWinner();
+        if(_numberOfChoices >= 6) VerifyGameWinner();
     }
 
     private void VerifyGameWinner()
     {
-        int xLineCount=0, oLineCount=0;
-        int xColumnCount=0, oColumnCount=0;
-        int leftDiagonalXCount = 0, leftDiagonalOCount = 0;
-        int rightDiagonalXCount = 0, rightDiagonalOCount = 0;
-        
+        CheckLines();
+        CheckColumns();
+        CheckLeftDiagonal();
+        CheckRightDiagonal();
+    }
+
+    private void CheckLines()
+    {
+        int xCount = 0;
+        int oCount = 0;
         for (int i = 0; i < 3; i++)
         {
             for (int j = 0; j < 3; j++)
             {
-                if (_ticTacToe[i,j] == "X") xLineCount++;
-                else if(_ticTacToe[i, j] == "O") oLineCount++;
+                if (_ticTacToe[i, j] == "X") xCount++;
+                else if (_ticTacToe[i, j] == "O") oCount++;
             }
+
+            if (xCount == 3) WriteHistory(_player1);
+            else if (oCount == 3) WriteHistory(_player2);
+            xCount = 0;
+            oCount = 0;
         }
-        
+    }
+
+    private void CheckColumns()
+    {
+        int xCount = 0;
+        int oCount = 0;
         for (int k = 0; k < 3; k++)
         {
             for (int l = 0; l < 3; l++)
             {
-                if(_ticTacToe[l,k] == "X") xColumnCount++;
-                else if(_ticTacToe[l, k] == "O") oColumnCount++;
+                if(_ticTacToe[l,k] == "X") xCount++;
+                else if(_ticTacToe[l,k] == "O") oCount++;
             }
+            if (xCount == 3) WriteHistory(_player1);
+            else if (oCount == 3) WriteHistory(_player2);
+            xCount = 0;
+            oCount = 0;
         }
+    }
 
+    private void CheckLeftDiagonal()
+    {
+        int xCount = 0;
+        int oCount = 0;
+        
         for (int m = 0; m < 3; m++)
         {
-            if (_ticTacToe[m, m] == "X") leftDiagonalXCount++;
-            else if(_ticTacToe[m, m] == "O") leftDiagonalOCount++;
+            if (_ticTacToe[m, m] == "X") xCount++;
+            else if(_ticTacToe[m, m] == "O") oCount++;
         }
+        if (xCount == 3) WriteHistory(_player1);
+        else if (oCount == 3) WriteHistory(_player2);
+        
+    }
 
+    private void CheckRightDiagonal()
+    {
+        int xCount = 0;
+        int oCount = 0;
+        
         int rightDiagonalColumnsCounter = 2;
         for (int n = 0; n < 3; n++)
         {
-            if (_ticTacToe[n, rightDiagonalColumnsCounter] == "X") rightDiagonalXCount++;
-            else if (_ticTacToe[n, rightDiagonalColumnsCounter] == "O") rightDiagonalOCount++;
+            if (_ticTacToe[n, rightDiagonalColumnsCounter] == "X") xCount++;
+            else if (_ticTacToe[n, rightDiagonalColumnsCounter] == "O") oCount++;
             rightDiagonalColumnsCounter--;
         }
-        if (xLineCount == 3 || oLineCount == 3) _gameOver = true;
-        if (xColumnCount == 3 || oColumnCount == 3) _gameOver = true;
-        if (leftDiagonalXCount == 3 || leftDiagonalOCount == 3) _gameOver = true;
-        if (rightDiagonalXCount == 3 || rightDiagonalOCount == 3) _gameOver = true;
+        if (xCount == 3) WriteHistory(_player1);
+        else if (oCount == 3) WriteHistory(_player2);
+    }
 
-        /*
-            [0,0][0,1][0,2],
-            [1,0][1,1][1,2],
-            [2,0][2,1][2,2]
-        */
-        Console.WriteLine("Verifica se alguém ganhou!");
+
+    private void WriteHistory(string winner)
+    {
+        //Database database = new();
+        Console.WriteLine($"{winner} ganhou!");
+        Reset();
+        _gameOver = true;
+        
     }
 }

@@ -9,7 +9,7 @@ namespace TicTacToe;
 
 public class Program
 {
-    static void Main(string[] args)
+    static void Main()
     {
         Console.WriteLine("XOXOXOXO  JOGOdaVELHA OXOXOXOX");
         Database database = new();
@@ -24,12 +24,12 @@ public class Program
             Console.WriteLine("| 0 - Sair                  |");
             Console.WriteLine("|___________________________|");
             Console.Write("Sua escolha: ");
-            string option = Console.ReadLine();
+            string? option = Console.ReadLine();
             switch (option)
             {
                 case "1":
                     Console.Write("Insira o nome do usuário:");
-                    string username = Console.ReadLine();
+                    string? username = Console.ReadLine();
                     username = string.Format(@"""{0}""", username);
                     if (database.VerifyUser(username))
                     {
@@ -47,15 +47,15 @@ public class Program
                     database.PrintScore();
                     break;
                 case "4":
-                    
+                {
                     Console.Clear();
                     Console.Write("Insira usuário do jogador 1: ");
-                    string player1 = Console.ReadLine();
+                    string? player1 = Console.ReadLine();
                     player1 = string.Format(@"""{0}""", player1);
                     if (database.VerifyUser(player1))
                     {
                         Console.Write("Insira o usuário do jogador 2: ");
-                        string player2 = Console.ReadLine();
+                        string? player2 = Console.ReadLine();
                         player2 = string.Format(@"""{0}""", player2);
                         if (database.VerifyUser(player2) && player1 != player2)
                         {
@@ -79,9 +79,10 @@ public class Program
                         Console.WriteLine("Erro! Jogador 1 não cadastrado!");
                     }
                     break;
+                }
             }
             if (option == "0") break;
-            if (option == null || option.Equals("") || option.Equals(" ")) continue;
+            if (option is null or " ") continue;
         }
     }
 }
