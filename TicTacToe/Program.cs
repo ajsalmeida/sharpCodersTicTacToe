@@ -41,10 +41,10 @@ public class Program
                     }
                     break;
                 case "2":
-                    database.PrintScore();
+                    database.PrintScore($"SELECT name,score FROM users ORDER BY score DESC");
                     break;
                 case "3":
-                    database.PrintHistoric();
+                    database.PrintHistoric($"SELECT player1,player2,scorePlayer1,scorePLayer2 FROM gamestory");
                     break;
                 case "4":
                 {

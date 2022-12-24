@@ -206,8 +206,6 @@ public class Game
         Database database = new();
         database.UpdateScore(winner, looser);
         database.UpdateHistory(winner,looser);
-        PrintGame(_player1, _player2);
-        System.Threading.Thread.Sleep(5000);
         Reset();
         _gameOver = true;
         

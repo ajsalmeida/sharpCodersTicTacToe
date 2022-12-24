@@ -101,8 +101,7 @@ namespace TicTacToe
             {
                 using (var connection = new SQLiteConnection(DATABASE_PATH))
                 {
-                    string insertHistory =
-                        $"INSERT INTO gamestory (player1,player2,scorePlayer1,scorePlayer2) VALUES ({winner},{looser},{1000},{0})";
+                    string insertHistory = $"INSERT INTO gamestory (player1,player2,scorePlayer1,scorePlayer2) VALUES ({winner},{looser},{1000},{0})";
                     Console.WriteLine(insertHistory);
                     using (var command = new SQLiteCommand(insertHistory, connection))
                     {
@@ -118,7 +117,7 @@ namespace TicTacToe
             }
         }
 
-        public void PrintScore()
+        public void PrintScore(string query)
         {
             SQLiteDataReader reader;
             try
@@ -128,8 +127,7 @@ namespace TicTacToe
                     Console.WriteLine();
                     Console.WriteLine("x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x");
                     Console.WriteLine("Ranking de pontuação:");
-                    string selectScore = $"SELECT name,score FROM users ORDER BY score DESC";
-                    using (var command = new SQLiteCommand(selectScore, connection))
+                    using (var command = new SQLiteCommand(query, connection))
                     {
                         command.Connection.Open();
                         reader = command.ExecuteReader();
@@ -153,7 +151,7 @@ namespace TicTacToe
             }
         }
 
-        public void PrintHistoric()
+        public void PrintHistoric(string query)
         {
             SQLiteDataReader reader;
             try
@@ -163,9 +161,7 @@ namespace TicTacToe
                     Console.WriteLine();
                     Console.WriteLine("x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x");
                     Console.WriteLine("Ranking de pontuação:");
-                    string selectScore =
-                        $"SELECT player1,player2,scorePlayer1,scorePLayer2 FROM gamestory";
-                    using (var command = new SQLiteCommand(selectScore, connection))
+                    using (var command = new SQLiteCommand(query, connection))
                     {
                         command.Connection.Open();
                         reader = command.ExecuteReader();
