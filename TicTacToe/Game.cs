@@ -66,11 +66,23 @@ public class Game
         int linePlayer1 = int.Parse(Console.ReadLine() ?? string.Empty);
         Console.Write($"{_player1} escolhe coluna:");
         int columnPlayer1 = int.Parse(Console.ReadLine() ?? string.Empty);
+        
+        while (linePlayer1 is < 1 or > 3 || columnPlayer1 is < 1 or > 3)
+        {
+            Console.WriteLine("Erro! Insira uma posição válida!");
+            Console.Write($"{_player1} escolhe linha:");
+            linePlayer1 = int.Parse(Console.ReadLine() ?? string.Empty);
+            Console.Write($"{_player1} escolhe coluna:");
+            columnPlayer1 = int.Parse(Console.ReadLine() ?? string.Empty);
+        }
+        
         if (_ticTacToe[linePlayer1 - 1, columnPlayer1 - 1] == "-")
         {
             _ticTacToe[linePlayer1 - 1, columnPlayer1 - 1] = "X";
             UpdateGameProgress();
         }
+        
+
         Console.Clear();
         PrintGame(_player1,_player2);
 
@@ -83,6 +95,16 @@ public class Game
         int linePlayer2 = int.Parse(Console.ReadLine() ?? string.Empty);
         Console.Write($"{_player2} escolhe coluna: ");
         int columnPlayer2 = int.Parse(Console.ReadLine() ?? string.Empty);
+        
+        while (linePlayer2 is < 1 or > 3 || columnPlayer2 is < 1 or > 3)
+        {
+            Console.WriteLine("Erro! Insira uma posição válida!");
+            Console.Write($"{_player2} escolhe linha:");
+            linePlayer2 = int.Parse(Console.ReadLine() ?? string.Empty);
+            Console.Write($"{_player2} escolhe coluna:");
+            columnPlayer2 = int.Parse(Console.ReadLine() ?? string.Empty);
+        }
+        
         if (_ticTacToe[linePlayer2 - 1, columnPlayer2 - 1] == "-")
         {
             _ticTacToe[linePlayer2 - 1, columnPlayer2 - 1] = "O";
@@ -184,8 +206,8 @@ public class Game
         Database database = new();
         database.UpdateScore(winner, looser);
         database.UpdateHistory(winner,looser);
+        PrintGame(_player1, _player2);
         System.Threading.Thread.Sleep(5000);
-        
         Reset();
         _gameOver = true;
         

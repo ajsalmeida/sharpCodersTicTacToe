@@ -41,10 +41,10 @@ public class Program
                     }
                     break;
                 case "2":
-                    
+                    database.PrintScore();
                     break;
                 case "3":
-                    database.PrintScore();
+                    database.PrintHistoric();
                     break;
                 case "4":
                 {
